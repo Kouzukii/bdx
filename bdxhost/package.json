@@ -1,7 +1,7 @@
 {
   "name": "bdx",
   "productName": "bdx",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "bdx - A powerful but intuitive BDO Editor",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -41,7 +41,7 @@
     ]
   },
   "build": {
-    "productName": "bdx",
+    "productName": "bdx Editor",
     "appId": "de.kouzukii.bdx",
     "files": [
       "dist/",
@@ -51,11 +51,26 @@
       "main.prod.js.map",
       "package.json"
     ],
+    "extraFiles": [
+      {
+        "from": "bin/",
+        "to": "bin/",
+        "filter": [
+          "!*.log"
+        ]
+      }
+    ],
+    "nsis": {
+      "artifactName": "${productName} Installer.${ext}"
+    },
     "win": {
       "target": [
         "nsis"
       ]
     },
+    "asarUnpack": [
+      "bin/"
+    ],
     "directories": {
       "buildResources": "resources",
       "output": "release"
@@ -63,16 +78,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/Kouzukii/bdx.git"
   },
   "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
+    "name": "Kouzukii",
+    "email": "blargorjan@gmail.com",
+    "url": "https://github.com/Kouzukii"
   },
-  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/Kouzukii/bdx/issues"
   },
   "keywords": [
     "electron",
@@ -85,7 +99,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/Kouzukii/bdx#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
