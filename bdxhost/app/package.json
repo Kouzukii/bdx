@@ -1,8 +1,8 @@
 {
   "name": "bdx",
-  "productName": "bdx",
+  "productName": "bdx Editor",
   "version": "1.0.0",
-  "description": "bdx - A powerful but intuitive BDO Editor",
+  "description": "bdx - A powerful BDO Editor",
   "main": "./main.prod.js",
   "author": {
     "name": "Kouzukii",

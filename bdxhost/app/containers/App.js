@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
-import {connect} from 'react-redux';
-import CircularProgress from "@material-ui/core/es/CircularProgress";
+import { connect } from 'react-redux';
+import LoadingOverlay from '../components/LoadingOverlay';
 
 type Props = {
   children: any,
@@ -13,11 +13,7 @@ class App extends React.Component<Props> {
 
   render() {
     if (!this.props.ready) {
-      return (
-        <div style={{display:'flex',margin:'auto'}}>
-          <CircularProgress size={60} />
-        </div>
-      )
+      return <LoadingOverlay />;
     }
 
     return <div>{this.props.children}</div>;

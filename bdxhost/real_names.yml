@@ -5,6 +5,18 @@ mappings:
   custom:
     - "**/m0453_fairy*->Fairy"
 
+    - "**/9_upperbody->Upper Body"
+    - "**/10_lowerbody->Lower Body"
+    - "**/11_hand->Hands"
+    - "**/12_foot->Feet"
+    - "**/13_hel->Helmet"
+    - "**/14_sho->Shoulders"
+    - "**/19_cloak->Cloak"
+    - "**/38_underwear->Underwear"
+    - "**/39_earring->Earring"
+    - "**/40_glasses->Glasses"
+    - "**/41_Piercing->Piercing"
+
   class:
     - "1_PHM->Warrior"
     - "2_PHW->Sorceress"

@@ -1,8 +1,7 @@
 // @flow
-import * as THREE from "three";
-import {ResizeSensor} from "css-element-queries";
-import OrbitControls from "./OrbitControls";
-import DDSLoader from "./DDSLoader";
+import * as THREE from 'three';
+import OrbitControls from './OrbitControls';
+import DDSLoader from './DDSLoader';
 
 let renderer: THREE.WebGLRenderer;
 let scene: THREE.Scene;
@@ -47,8 +46,12 @@ function prepareScene() {
   lights[1].position.set(200, 400, 200);
   lights[2].position.set(-200, -200, -200);
 
-  lights.push(new THREE.PointLightHelper(lights[0], 1), new THREE.PointLightHelper(lights[1], 1), new THREE.PointLightHelper(lights[2], 1));
-  lights.push(new THREE.AmbientLight(0x3A3A3A));
+  lights.push(
+    new THREE.PointLightHelper(lights[0], 1),
+    new THREE.PointLightHelper(lights[1], 1),
+    new THREE.PointLightHelper(lights[2], 1)
+  );
+  lights.push(new THREE.AmbientLight(0x3a3a3a));
 
   scene.add(...lights);
 }
@@ -71,7 +74,12 @@ export function init(canvas: HTMLCanvasElement) {
   renderer.gammaInput = true;
   renderer.gammaOutput = true;
   clock = new THREE.Clock();
-  camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 1, 10000);
+  camera = new THREE.PerspectiveCamera(
+    75,
+    canvas.clientWidth / canvas.clientHeight,
+    1,
+    10000
+  );
   controls = new OrbitControls(camera, canvas);
   controls.target = new THREE.Vector3(0, 120, 0);
   loader = new DDSLoader();
@@ -79,11 +87,9 @@ export function init(canvas: HTMLCanvasElement) {
   resetCamera();
   renderFrame();
 
-  /* eslint-disable no-new */
-  new ResizeSensor(canvas.parentElement, () => {
+  window.addEventListener('resize', () => {
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-
   });
 }

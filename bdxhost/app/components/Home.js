@@ -1,12 +1,13 @@
 // @flow
-import React, {Component} from 'react';
-import Paper from "@material-ui/core/es/Paper";
-import Typography from "@material-ui/core/es/Typography";
-import {withStyles} from "@material-ui/core/es/styles";
-import qs from "querystring";
-import ExplorerTable from "../containers/ExplorerTable";
-import ResourceView from "../containers/ResourceView";
-import {combine} from "../utils/PathUtils";
+import React, { Component } from 'react';
+import Paper from '@material-ui/core/es/Paper';
+import Typography from '@material-ui/core/es/Typography';
+import { withStyles } from '@material-ui/core/es/styles';
+import qs from 'querystring';
+import path from 'path';
+import ExplorerTable from '../containers/ExplorerTable';
+import ResourceView from '../containers/ResourceView';
+import { combine } from '../utils/PathUtils';
 
 type Props = {
   classes: any,
@@ -22,7 +23,7 @@ const styles = {
     overflow: 'hidden'
   },
   heading: {
-    margin: '10px'
+    margin: '15px 15px 0 15px'
   },
   paper: {
     position: 'relative',
@@ -38,17 +39,25 @@ class Home extends Component<Props> {
   props: Props;
 
   render() {
-    const {
-      classes,
-      location
-    } = this.props;
+    const { classes, location } = this.props;
 
     return (
       <div>
         <div className={classes.container} data-tid="container">
-          <ResourceView path={location.search ? combine(location.pathname, qs.parse(location.search.slice(1)).file) : undefined} />
+          <ResourceView
+            path={
+              location.search
+                ? combine(
+                    location.pathname,
+                    qs.parse(location.search.slice(1)).file
+                  )
+                : undefined
+            }
+          />
           <Paper className={classes.paper}>
-            <Typography className={classes.heading} variant="headline">Home</Typography>
+            <Typography className={classes.heading} variant="headline">
+              {path.basename(location.pathname) || 'Root'}
+            </Typography>
             <ExplorerTable path={location.pathname} />
           </Paper>
         </div>
