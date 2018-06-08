@@ -58,7 +58,8 @@
         "filter": [
           "!*.log"
         ]
-      }
+      },
+      "real_names.yml"
     ],
     "nsis": {
       "artifactName": "${productName} Installer.${ext}"
@@ -88,17 +89,6 @@
   "bugs": {
     "url": "https://github.com/Kouzukii/bdx/issues"
   },
-  "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
-  ],
   "homepage": "https://github.com/Kouzukii/bdx#readme",
   "jest": {
     "moduleNameMapper": {
@@ -195,11 +185,13 @@
   "dependencies": {
     "@material-ui/core": "^1.1.0",
     "@material-ui/icons": "^1.1.0",
+    "css-element-queries": "^1.0.2",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
-    "normalize-path": "^3.0.0",
+    "js-yaml": "^3.12.0",
+    "minimatch": "^3.0.4",
     "pretty-bytes": "^5.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
@@ -210,7 +202,8 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
-    "source-map-support": "^0.5.6"
+    "source-map-support": "^0.5.6",
+    "three": "^0.93.0"
   },
   "devEngines": {
     "node": ">=7.x",

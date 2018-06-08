@@ -11,6 +11,7 @@ using File = System.IO.File;
 namespace bdxnative {
     public static class BdDiscovery {
         private static string location;
+        private static string dataDir;
 
         public static string PazLocation => Path.Combine(Location, "Paz");
 
@@ -45,6 +46,14 @@ namespace bdxnative {
                 }
 
                 throw new DirectoryNotFoundException("Black Desert Online could not be discovered.");
+            }
+        }
+
+        public static string DataDir {
+            get {
+                if (dataDir != null) return dataDir;
+
+                return dataDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "export");
             }
         }
 

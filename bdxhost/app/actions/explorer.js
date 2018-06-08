@@ -8,9 +8,9 @@ type actionType = {
 
 export const FOLDER_GET = "FOLDER_GET";
 export const FOLDER_GET_FAILED = "FOLDER_GET_FAILED";
-export const FOLDER_SUCCESS = "FOLDER_SUCCESS";
+export const FOLDER_GET_SUCCESS = "FOLDER_GET_SUCCESS";
 
-export function moveToFolder(path: string) {
+export function loadPath(path: string) {
   return (
     dispatch: (action: actionType) => void,
     getState: () => rootStateType

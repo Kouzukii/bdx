@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import CircularProgress from "@material-ui/core/es/CircularProgress";
 
 type Props = {
-  children: React.Node,
+  children: any,
   ready: boolean
 };
 

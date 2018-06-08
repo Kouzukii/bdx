@@ -1,17 +1,18 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as ExplorerActions from '../actions/explorer';
+import {connect} from 'react-redux';
+import {loadPath} from '../actions/explorer';
 import ExplorerTable from "../components/ExplorerTable";
 
 function mapStateToProps(state) {
   return {
-    path: state.explorer.path,
-    entries: state.explorer.entries
+    entries: state.explorer.entries,
+    loadedPath: state.explorer.path,
+    errorLoading: state.explorer.error,
+    loading: state.explorer.loading
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ExplorerActions, dispatch);
-}
+const mapDispatchToProps = {
+    loadPath
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExplorerTable);

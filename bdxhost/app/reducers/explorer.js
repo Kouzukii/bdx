@@ -1,6 +1,6 @@
 // @flow
 
-import {FOLDER_GET, FOLDER_GET_FAILED, FOLDER_SUCCESS} from "../actions/explorer";
+import {FOLDER_GET, FOLDER_GET_FAILED, FOLDER_GET_SUCCESS} from "../actions/explorer";
 
 export type fileEntry = {
   name: string,
@@ -25,7 +25,7 @@ type folderGetFailedType = {
 };
 
 type folderGetSuccessType = {
-  type: typeof FOLDER_SUCCESS,
+  type: typeof FOLDER_GET_SUCCESS,
   path: string,
   entries: fileEntry[]
 };
@@ -42,10 +42,10 @@ const initialState = () => ({
 export default function explorer(state: explorerStateType = initialState(), action: actionType): explorerStateType {
   switch (action.type) {
     case FOLDER_GET:
-      return {...state, loading: true};
+      return {...state, entries: [], error: false, loading: true};
     case FOLDER_GET_FAILED:
       return {...state, error: true, loading: false};
-    case FOLDER_SUCCESS:
+    case FOLDER_GET_SUCCESS:
       return {path: action.path, entries: action.entries, error: false, loading: false};
     default:
       return state;

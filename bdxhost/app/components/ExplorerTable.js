@@ -5,15 +5,18 @@ import TableHead from "@material-ui/core/es/TableHead";
 import TableRow from "@material-ui/core/es/TableRow";
 import TableCell from "@material-ui/core/es/TableCell";
 import TableBody from "@material-ui/core/es/TableBody";
-import npath from "path";
-import normalize from "normalize-path";
 import ExplorerTableEntry from "./ExplorerTableEntry";
 import type {fileEntry} from "../reducers/explorer";
+import {combine, parent} from "../utils/PathUtils";
+import {match} from "../utils/RealNames";
 
 type Props = {
   path: string,
+  loadedPath: string,
   entries: fileEntry[],
-  moveToFolder: (string) => void
+  loadPath: (string) => void,
+  loading: boolean,
+  errorLoading: boolean
 };
 
 export default class ExplorerTable extends React.Component<Props> {
@@ -22,12 +25,15 @@ export default class ExplorerTable extends React.Component<Props> {
   render() {
     const {
       path,
-      moveToFolder,
-      entries
+      entries,
+      loadedPath,
+      loadPath,
+      loading,
+      errorLoading
     } = this.props;
 
-    if (path === "") {
-      moveToFolder("/");
+    if (!loading && !errorLoading && loadedPath.toLowerCase() !== path.toLowerCase()) {
+      loadPath(path);
     }
 
     return (
@@ -41,9 +47,9 @@ export default class ExplorerTable extends React.Component<Props> {
         <TableBody>
           {path !== '/' && <ExplorerTableEntry
             key=".."
-            onClick={() => moveToFolder(normalize(npath.dirname(path)))}
+            target={parent(path)}
             name=".."
-            type="directory"
+            type="go-up"
           />}
           {entries.filter(e => e.type === 'directory').map(e => (
             <ExplorerTableEntry
@@ -51,7 +57,8 @@ export default class ExplorerTable extends React.Component<Props> {
               type={e.type}
               name={e.name}
               size={e.size}
-              onClick={() => moveToFolder(normalize(npath.join(path, e.name)))}
+              realName={match(combine(path, e.name))}
+              target={combine(path, e.name)}
             />
           ))}
           {entries.filter(e => e.type === 'file').map(e => (
@@ -60,6 +67,8 @@ export default class ExplorerTable extends React.Component<Props> {
               type={e.type}
               name={e.name}
               size={e.size}
+              realName={match(combine(path, e.name))}
+              target={`${path}?file=${encodeURIComponent(e.name)}`}
             />
           ))}
         </TableBody>

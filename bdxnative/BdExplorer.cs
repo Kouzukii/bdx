@@ -22,7 +22,7 @@ namespace bdxnative {
             root = new FolderEntry("");
             foreach (var block in metaFile.FileBlocks) {
                 var folder = Traverse(block.FolderName, true);
-                folder.children.Add(block.FileName, new FolderEntry(block.FileName, block.Size));
+                folder.children.Add(block.FileName, new FolderEntry(block));
             }
         }
 
@@ -30,25 +30,34 @@ namespace bdxnative {
             return Traverse(path, false).children.Values;
         }
 
+        public FileBlock GetFileBlock(string path) {
+            return Traverse(path, false).fileBlock;
+        }
+
+        public FileBlock GetFileBlockForName(string fileName) {
+            return metaFile.FileBlocks.Find(fb => fileName.Equals(fb.FileName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         private FolderEntry Traverse(string path, bool create) {
             var split = path.Split(new []{'/'}, StringSplitOptions.RemoveEmptyEntries);
             var current = root;
             foreach (var part in split) {
-                if (current.children.TryGetValue(part, out var next)) {
+                var lower = part.ToLower();
+                if (current.children.TryGetValue(lower, out var next)) {
                     current = next;
                 } else if (create) {
                     var entry = new FolderEntry(part);
-                    current.children.Add(part, entry);
+                    current.children.Add(lower, entry);
                     current = entry;
                 } else {
-                    throw new NoSuchFolderException();
+                    throw new NoSuchEntryException();
                 }
             }
 
             return current;
         }
 
-        public class NoSuchFolderException : Exception {
+        public class NoSuchEntryException : Exception {
         }
 
         public enum EntryType {
@@ -68,15 +77,19 @@ namespace bdxnative {
 
             [JsonIgnore] public readonly Dictionary<string, FolderEntry> children;
 
+            [JsonIgnore] public readonly FileBlock fileBlock;
+
             public FolderEntry(string name) {
-                Name = name;
                 Type = EntryType.directory;
+                Name = name;
                 children = new Dictionary<string, FolderEntry>();
             }
 
-            public FolderEntry(string name, int size) {
-                Name = name;
-                Size = size;
+            public FolderEntry(FileBlock fileBlock) {
+                Type = EntryType.file;
+                Name = fileBlock.FileName;
+                Size = fileBlock.Size;
+                this.fileBlock = fileBlock;
             }
         }
     }
