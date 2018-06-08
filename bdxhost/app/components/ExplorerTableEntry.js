@@ -8,16 +8,14 @@ import withStyles from '@material-ui/core/es/styles/withStyles';
 import FileIcon from '@material-ui/icons/InsertDriveFile';
 import GoUpIcon from '@material-ui/icons/Reply';
 import prettyBytes from 'pretty-bytes';
-import { withRouter } from 'react-router-dom';
 
 type Props = {
   type: string,
   name: string,
   realName?: ?string,
   size?: number,
-  target: any,
-  classes: any,
-  history: any
+  onClick: () => void,
+  classes: any
 };
 
 const styles = theme => ({
@@ -51,14 +49,10 @@ class ExplorerTableEntry extends React.Component<Props> {
   }
 
   render() {
-    const { name, target, size, classes, history, realName } = this.props;
+    const { name, onClick, size, classes, realName } = this.props;
 
     return (
-      <TableRow
-        onClick={() => history.push(target)}
-        hover
-        className={classes.row}
-      >
+      <TableRow onClick={onClick} hover className={classes.row}>
         <TableCell>
           <span className={classes.cell}>
             {this.getIcon()}
@@ -74,4 +68,4 @@ class ExplorerTableEntry extends React.Component<Props> {
   }
 }
 
-export default withRouter(withStyles(styles)(ExplorerTableEntry));
+export default withStyles(styles)(ExplorerTableEntry);

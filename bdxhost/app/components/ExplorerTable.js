@@ -5,6 +5,7 @@ import TableHead from '@material-ui/core/es/TableHead';
 import TableRow from '@material-ui/core/es/TableRow';
 import TableCell from '@material-ui/core/es/TableCell';
 import TableBody from '@material-ui/core/es/TableBody';
+import withStyles from '@material-ui/core/es/styles/withStyles';
 import ExplorerTableEntry from './ExplorerTableEntry';
 import type { fileEntry } from '../reducers/explorer';
 import { combine, parent } from '../utils/PathUtils';
@@ -12,15 +13,29 @@ import { match } from '../utils/RealNames';
 import LoadingOverlay from './LoadingOverlay';
 
 type Props = {
+  classes: any,
   path: string,
   loadedPath: string,
   entries: fileEntry[],
   loadPath: string => void,
   loading: boolean,
-  errorLoading: boolean
+  errorLoading: boolean,
+  history: any
 };
 
-export default class ExplorerTable extends React.Component<Props> {
+const styles = {
+  root: {
+    display: 'flex'
+  },
+  fileNameCell: {
+    width: 'auto'
+  },
+  sizeCell: {
+    width: 120
+  }
+};
+
+class ExplorerTable extends React.Component<Props> {
   props: Props;
 
   constructor(props: Props) {
@@ -41,24 +56,26 @@ export default class ExplorerTable extends React.Component<Props> {
     }
   }
 
+  moveTo = (destination: string) => () => this.props.history.push(destination);
+
   render() {
-    const { path, entries, loading } = this.props;
+    const { path, entries, loading, classes } = this.props;
 
     return (
-      <div style={{ display: 'flex' }}>
+      <div className={classes.root}>
         {loading && <LoadingOverlay />}
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: 'auto' }}>Filename</TableCell>
-              <TableCell style={{ width: 120 }}>Size</TableCell>
+              <TableCell classname={classes.fileNameCell}>Filename</TableCell>
+              <TableCell classname={classes.sizeCell}>Size</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {path !== '/' && (
               <ExplorerTableEntry
                 key=".."
-                target={parent(path)}
+                onClick={this.moveTo(parent(path))}
                 name=".."
                 type="go-up"
               />
@@ -72,7 +89,7 @@ export default class ExplorerTable extends React.Component<Props> {
                   name={e.name}
                   size={e.size}
                   realName={match(combine(path, e.name))}
-                  target={combine(path, e.name)}
+                  onClick={this.moveTo(combine(path, e.name))}
                 />
               ))}
             {entries
@@ -84,7 +101,9 @@ export default class ExplorerTable extends React.Component<Props> {
                   name={e.name}
                   size={e.size}
                   realName={match(combine(path, e.name))}
-                  target={`${path}?file=${encodeURIComponent(e.name)}`}
+                  onClick={this.moveTo(
+                    `${path}?file=${encodeURIComponent(e.name)}`
+                  )}
                 />
               ))}
           </TableBody>
@@ -93,3 +112,5 @@ export default class ExplorerTable extends React.Component<Props> {
     );
   }
 }
+
+export default withStyles(styles)(ExplorerTable);

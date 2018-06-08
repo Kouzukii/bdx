@@ -12,15 +12,17 @@
  */
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import { dirname } from 'path';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
 
+// $FlowFixMe
+process.env.PATH = `${process.env.PATH};${dirname(__dirname)}/bin`;
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
-
-  autoUpdater.checkForUpdatesAndNotify();
 }
 
 if (
@@ -62,6 +64,10 @@ app.on('ready', async () => {
     process.env.DEBUG_PROD === 'true'
   ) {
     await installExtensions();
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    await autoUpdater.checkForUpdatesAndNotify();
   }
 
   mainWindow = new BrowserWindow({

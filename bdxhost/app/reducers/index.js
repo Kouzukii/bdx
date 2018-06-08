@@ -14,7 +14,8 @@ export type rootStateType = {
   +counter: counterStateType,
   +native: nativeStateType,
   +explorer: explorerStateType,
-  +preview: previewStateType
+  +preview: previewStateType,
+  +router: { +location: any }
 };
 
 const rootReducer = combineReducers({

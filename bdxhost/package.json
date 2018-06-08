@@ -53,7 +53,7 @@
         "to": "./",
         "filter": [
           "!*.log",
-          "bin/win-x86"
+          "!win-x86/"
         ]
       },
       "real_names.yml"
@@ -65,7 +65,9 @@
       "target": [
         "nsis"
       ],
-      "publish": ["github"]
+      "publish": [
+        "github"
+      ]
     },
     "directories": {
       "buildResources": "resources",
@@ -170,9 +172,9 @@
     "react-dom": "^16.4.0",
     "react-hot-loader": "^4.2.0",
     "react-redux": "^5.0.7",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.6",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-router-redux": "^5.0.0-alpha.9",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
     "source-map-support": "^0.5.6",

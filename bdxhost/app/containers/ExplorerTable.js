@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { loadPath } from '../actions/explorer';
 import ExplorerTable from '../components/ExplorerTable';
 
@@ -15,4 +16,7 @@ const mapDispatchToProps = {
   loadPath
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExplorerTable);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(ExplorerTable));

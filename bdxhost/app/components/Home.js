@@ -11,7 +11,7 @@ import { combine } from '../utils/PathUtils';
 
 type Props = {
   classes: any,
-  location: any
+  loc: any
 };
 
 const styles = {
@@ -39,26 +39,23 @@ class Home extends Component<Props> {
   props: Props;
 
   render() {
-    const { classes, location } = this.props;
+    const { classes, loc } = this.props;
 
     return (
       <div>
         <div className={classes.container} data-tid="container">
           <ResourceView
             path={
-              location.search
-                ? combine(
-                    location.pathname,
-                    qs.parse(location.search.slice(1)).file
-                  )
+              loc.search
+                ? combine(loc.pathname, qs.parse(loc.search.slice(1)).file)
                 : undefined
             }
           />
           <Paper className={classes.paper}>
             <Typography className={classes.heading} variant="headline">
-              {path.basename(location.pathname) || 'Root'}
+              {path.basename(loc.pathname) || 'Root'}
             </Typography>
-            <ExplorerTable path={location.pathname} />
+            <ExplorerTable path={loc.pathname} />
           </Paper>
         </div>
       </div>

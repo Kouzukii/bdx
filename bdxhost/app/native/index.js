@@ -20,17 +20,11 @@ export default class NativeServer {
   };
 
   start(dispatch: (action: *) => void) {
-    this.childProcess = spawn(
-      process.env.NODE_ENV === 'development'
-        ? 'bin/bdxnative.exe'
-        : 'bdxnative.exe',
-      [],
-      {
-        windowsHide: true,
-        stdio: ['ignore', 'pipe', 'pipe', 'pipe'],
-        env: { BDX_FD: 3 }
-      }
-    )
+    this.childProcess = spawn('bdxnative.exe', [], {
+      windowsHide: true,
+      stdio: ['ignore', 'pipe', 'pipe', 'pipe'],
+      env: { BDX_FD: 3 }
+    })
       .on('exit', this.onClose)
       .on('error', this.onError);
     this.childProcess.stdout.on('data', data =>
