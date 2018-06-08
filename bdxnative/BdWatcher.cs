@@ -8,7 +8,7 @@ using log4net;
 
 namespace bdxnative {
     class BdWatcher {
-        private static ILog log = LogManager.GetLogger("Watcher");
+        private static ILog log = LogManager.GetLogger(typeof(BdWatcher));
 
         public BdWatcher() {
             new Thread(Watcher){IsBackground = true, Name = "Watcher"}.Start();

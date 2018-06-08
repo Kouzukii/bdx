@@ -4,7 +4,7 @@ using log4net;
 
 namespace bdxnative {
     public class Program {
-        private static readonly ILog log = LogManager.GetLogger("bdxnative");
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
         public static NodeIPC channel;
         public static BdExplorer explorer;

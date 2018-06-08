@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace bdxnative {
     static class BdFileDecoder {
         private static readonly JsonSerializer serializer = new JsonSerializer();
-        private static readonly ILog log = LogManager.GetLogger("filedecoder");
+        private static readonly ILog log = LogManager.GetLogger(typeof(BdFileDecoder));
 
         public delegate FileBlock FileBlockResolver(string file);
 

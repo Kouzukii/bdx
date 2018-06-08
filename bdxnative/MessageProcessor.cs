@@ -8,7 +8,7 @@ using log4net;
 
 namespace bdxnative {
     public class MessageProcessor {
-        private static readonly ILog log = LogManager.GetLogger("message");
+        private static readonly ILog log = LogManager.GetLogger(typeof(MessageProcessor));
 
         public void Receive(Message msg) {
             log.Info($"Received message {msg.Type}");

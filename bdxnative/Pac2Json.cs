@@ -25,9 +25,9 @@ namespace bdxnative {
     }
 
     class Geometry {
-        [JsonProperty("skinIndices")] public IList<Vector4> SkinIndices;
+        [JsonProperty("skinIndices")] public IList<float> SkinIndices;
 
-        [JsonProperty("skinWeights")] public IList<Vector4> SkinWeights;
+        [JsonProperty("skinWeights")] public IList<float> SkinWeights;
 
         [JsonProperty("positions")] public IList<float> Positions;
 

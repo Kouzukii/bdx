@@ -13,7 +13,7 @@ using Newtonsoft.Json.Serialization;
 namespace bdxnative {
     public class NodeIPC : IDisposable {
         private static Encoding utf8 = new UTF8Encoding(false);
-        private static ILog log = LogManager.GetLogger("NodeIPC");
+        private static ILog log = LogManager.GetLogger(typeof(NodeIPC));
         private SafeFileHandle channel;
 
         private JsonSerializer serializer = new JsonSerializer {

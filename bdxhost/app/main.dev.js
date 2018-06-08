@@ -11,6 +11,7 @@
  * @flow
  */
 import { app, BrowserWindow } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -18,12 +19,15 @@ let mainWindow = null;
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
+
+  autoUpdater.checkForUpdatesAndNotify();
 }
 
 if (
   process.env.NODE_ENV === 'development' ||
   process.env.DEBUG_PROD === 'true'
 ) {
+  console.log('running in debug mode');
   require('electron-debug')();
   const path = require('path');
   const p = path.join(__dirname, '..', 'app', 'node_modules');
