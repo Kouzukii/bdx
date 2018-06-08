@@ -1,21 +1,22 @@
 # bdx Electron Window Host
 
-Requires a compiled version of bdx Native under `bin/` and node >= 9
+Requires dotnetcore 2.1 SDK, yarn and node >= 9
 
 ## Setup (yarn required)
 
-``
+```
 yarn install
-``
+yarn run build-native
+```
 
 ## Run locally
 
-``
+```
 yarn run dev
-``
+```
 
 ## Build Installer
 
-`` 
+```
 yarn run package
-``
+```
