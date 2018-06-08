@@ -3,19 +3,17 @@ language: node_js
 node_js:
   - node
 
-addons:
-  apt:
-    update: true
-    sources:
-      - sourceline: https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
-    packages:
-      - dotnet-sdk-2.1
-
 cache:
   yarn: true
   directories:
     - bdxhost/node_modules
     - bdxhost/app/node_modules
+
+before_install:
+  - wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+  - sudo dpkg -i packages-microsoft-prod.deb
+  - sudo apt-get update
+  - sudo apt-get install dotnet-sdk-2.1
 
 install:
   - cd bdxhost
