@@ -1,4 +1,6 @@
 language: node_js
+dist: trusty
+sudo: false
 
 node_js:
   - node
@@ -6,22 +8,33 @@ node_js:
 cache:
   yarn: true
   directories:
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
     - bdxhost/node_modules
     - bdxhost/app/node_modules
+    - bdxhost/flow-typed
 
-before_install:
-  - wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
-  - sudo dpkg -i packages-microsoft-prod.deb
-  - sudo apt-get install apt-transport-https
-  - sudo apt-get update
-  - sudo apt-get install dotnet-runtime-2.1 aspnetcore-runtime-2.1 dotnet-sdk-2.1 dotnet-runtime-deps-2.1 dotnet-host dotnet-hostfxr-2.1 libicu55
+addons:
+  apt:
+    sources:
+      - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main'
+      - sourceline: 'deb https://dl.winehq.org/wine-builds/ubuntu/ trusty main'
+    packages:
+      - libstdc++6
+      - dotnet-sdk-2.1
+      - winehq-stable
 
 install:
   - cd bdxhost
   - yarn
-  - cd app && yarn
+  - cd app
+  - yarn
+  - cd ..
 
-script:
-  - cd bdxhost
-  - yarn lint
-  - yarn release
+jobs:
+  include:
+    - name: lint
+      script: yarn lint
+
+    - name: package
+      script: yarn package
