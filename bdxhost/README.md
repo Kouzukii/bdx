@@ -9,14 +9,24 @@ yarn install
 yarn run build-native
 ```
 
-## Run locally
+## Run locally (dev)
 
 ```
 yarn run dev
 ```
 
-## Build Installer
+## Run locally (prod)
+
+```
+yarn start
+```
+
+## Build One Click Installer
 
 ```
 yarn run package
 ```
+
+## Change Real Names
+
+/real_names.yml

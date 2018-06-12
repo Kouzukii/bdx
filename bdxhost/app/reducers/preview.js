@@ -4,7 +4,10 @@ import {
   FILE_GET,
   FILE_GET_FAILED,
   FILE_GET_SUCCESS,
-  FILE_READ_FAILED
+  FILE_READ_FAILED,
+  FILE_UPSCALE,
+  FILE_UPSCALE_FAILED,
+  FILE_UPSCALE_SUCCESS
 } from '../actions/preview';
 
 export type previewStateType = {
@@ -41,6 +44,12 @@ export default function preview(
       };
     case FILE_READ_FAILED:
       return { ...state, error: true };
+    case FILE_UPSCALE:
+      return { ...state, error: false, loading: true };
+    case FILE_UPSCALE_FAILED:
+      return { ...state, error: true, loading: false };
+    case FILE_UPSCALE_SUCCESS:
+      return { ...state, loading: false, [action.textureType]: action.path };
     default:
       return state;
   }

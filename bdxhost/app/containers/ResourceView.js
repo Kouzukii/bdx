@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import ResourceView from '../components/ResourceView';
-import { errorWhileOpeningFile, loadFile } from '../actions/preview';
+import {
+  errorWhileOpeningFile,
+  loadFile,
+  upscaleImage
+} from '../actions/preview';
 import type { rootStateType } from '../reducers';
 
 function mapStateToProps(state: rootStateType) {
@@ -8,13 +12,20 @@ function mapStateToProps(state: rootStateType) {
     loadedPath: state.preview.path,
     fileType: state.preview.fileType,
     errorLoading: state.preview.error,
-    loading: state.preview.loading
+    loading: state.preview.loading,
+    map: state.preview.map,
+    normalMap: state.preview.normalMap,
+    specularMap: state.preview.specularMap
   };
 }
 
 const mapDispatchToProps = {
   errorWhileOpeningFile,
-  loadFile
+  loadFile,
+  upscaleImage
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ResourceView);

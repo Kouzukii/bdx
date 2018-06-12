@@ -23,6 +23,16 @@ namespace bdxnative {
             return fileInfo.Create();
         }
 
+        private static string GetSpecularName(string texture) {
+            if (texture.EndsWith("_dm")) return texture.Substring(0, texture.Length - 2) + "sp.dds";
+            return texture + "_sp.dds";
+        }
+
+        private static string GetNormalName(string texture) {
+            if (texture.EndsWith("_dm")) return texture.Substring(0, texture.Length - 2) + "n.dds";
+            return texture + "_n.dds";
+        }
+
         public static FileType Export(FileBlock fb, bool exportTextures, FileBlockResolver textureResolver,
             out string path) {
             FileType ft = FileType.Unknown;
@@ -42,18 +52,20 @@ namespace bdxnative {
             }
 
             path = Path.Combine(BdDiscovery.DataDir, fb.FolderName, fb.FileName);
+            var upscaled = DDSUtility.GetUpscaledName(path);
 
             if (ft == FileType.PAC) {
-                var file = new FileInfo(path);
+                var file = new FileInfo(path + ".json");
+                path = file.FullName;
                 var data = Pac2Json.ReadPAC(fb);
 
                 if (exportTextures) {
                     foreach (var mesh in data.Meshes) {
                         var texture = textureResolver($"{mesh.TextureName}.dds");
                         if (texture != null) Export(texture, false, null, out mesh.TexturePath);
-                        var normalTexture = textureResolver($"{mesh.TextureName}_n.dds");
+                        var normalTexture = textureResolver(GetNormalName(mesh.TextureName));
                         if (normalTexture != null) Export(normalTexture, false, null, out mesh.NormTexturePath);
-                        var specularTexture = textureResolver($"{mesh.TextureName}_sp.dds");
+                        var specularTexture = textureResolver(GetSpecularName(mesh.TextureName));
                         if (specularTexture != null) Export(specularTexture, false, null, out mesh.SpecTexturePath);
                     }
                 }
@@ -66,8 +78,11 @@ namespace bdxnative {
 
                 if (!File.Exists(hash) || BitConverter.ToInt32(File.ReadAllBytes(hash), 0) != fb.Hash) {
                     fb.Extract(BdDiscovery.DataDir);
+                    if (File.Exists(upscaled)) File.Delete(upscaled);
 
                     File.WriteAllBytes(hash, BitConverter.GetBytes(fb.Hash));
+                } else {
+                    if (File.Exists(upscaled)) path = upscaled;
                 }
             }
 

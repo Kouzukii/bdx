@@ -3,12 +3,13 @@
   "productName": "bdx Editor",
   "version": "0.1.0",
   "description": "bdx - A powerful BDO Editor",
+  "license": "MIT",
   "scripts": {
     "build": "concurrently \"npm run build-native\" \"npm run build-main\" \"npm run build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
-    "build-native": "cd ../bdxnative && dotnet publish -o ../bdxhost/bin -r win-x86 -c Release --self-contained",
+    "build-native": "msbuild ../bdx.sln /t:Rebuild /p:Configuration=Release;Platform=x86",
     "dev": "cross-env START_HOT=1 node -r babel-register ./internals/scripts/CheckPortInUse.js && cross-env START_HOT=1 npm run start-renderer-dev",
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
@@ -143,7 +144,6 @@
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.1",
-    "sinon": "^5.0.10",
     "spectron": "^3.8.0",
     "style-loader": "^0.21.0",
     "stylefmt": "^6.0.0",
@@ -158,7 +158,7 @@
     "webpack-merge": "^4.1.2"
   },
   "dependencies": {
-    "@material-ui/core": "^1.1.0",
+    "@material-ui/core": "^1.2.1",
     "@material-ui/icons": "^1.1.0",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",

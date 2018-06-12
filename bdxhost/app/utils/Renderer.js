@@ -56,13 +56,13 @@ function prepareScene() {
   scene.add(...lights);
 }
 
-export function load(path: string) {
-  const texture = loader.load(path);
-  texture.minFilter = THREE.LinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  return texture;
+export function load(
+  path: string,
+  onSuccess: any,
+  onProgress: any,
+  onFail: any
+) {
+  return loader.load(path, onSuccess, onProgress, onFail);
 }
 
 export function init(canvas: HTMLCanvasElement) {

@@ -16,7 +16,7 @@ export default class NativeServer {
   };
 
   onClose = () => {
-    console.log('bdxnative process exited');
+    console.warn('bdxnative process exited');
   };
 
   start(dispatch: (action: *) => void) {
@@ -31,7 +31,7 @@ export default class NativeServer {
       console.log(`bdnative: ${data}`)
     );
     this.childProcess.stderr.on('data', data =>
-      console.log(`bdnative: ERR ${data}`)
+      console.warn(`bdnative: ${data}`)
     );
     this.childProcess.stdio[3].setEncoding('utf8');
     createInterface({

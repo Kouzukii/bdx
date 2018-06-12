@@ -4,6 +4,7 @@
   "version": "1.0.0-rc1",
   "description": "bdx - A powerful BDO Editor",
   "main": "./main.prod.js",
+  "license": "MIT",
   "author": {
     "name": "Kouzukii",
     "email": "blargorjan@gmail.com",

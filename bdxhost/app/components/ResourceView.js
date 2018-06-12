@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as THREE from 'three';
 import { readFile } from 'fs';
 import * as Renderer from '../utils/Renderer';
+import MaterialManager from '../utils/MaterialManager';
 
 type Props = {
   path: ?string,
@@ -10,11 +11,19 @@ type Props = {
   fileType: ?string,
   errorWhileOpeningFile: Error => void,
   loadFile: (?string, boolean) => void,
+  upscaleImage: (string, string) => void,
   loading: boolean,
-  errorLoading: boolean
+  errorLoading: boolean,
+  map?: string,
+  normalMap?: string,
+  specularMap?: string
 };
 
-export default class ResourceView extends React.Component<Props> {
+type State = {
+  manager: MaterialManager
+};
+
+export default class ResourceView extends React.Component<Props, State> {
   canvas = React.createRef();
 
   componentDidMount() {
@@ -56,19 +65,16 @@ export default class ResourceView extends React.Component<Props> {
             );
             geom.addAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
 
-            const mat = new THREE.MeshPhongMaterial({
-              side: THREE.DoubleSide,
-              vertexColors: THREE.NoColors,
-              map: mesh.texturePath && Renderer.load(mesh.texturePath),
-              normalMap:
-                mesh.normTexturePath && Renderer.load(mesh.normTexturePath),
-              specularMap:
-                mesh.specTexturePath && Renderer.load(mesh.specTexturePath),
-              transparent: true,
-              alphaTest: 0.05
-            });
-
-            return new THREE.Mesh(geom, mat);
+            const manager = new MaterialManager(
+              {
+                map: mesh.texturePath,
+                normalMap: mesh.normTexturePath,
+                specularMap: mesh.specTexturePath
+              },
+              this.props.upscaleImage
+            );
+            this.setState({ manager });
+            return new THREE.Mesh(geom, manager.material);
           });
           Renderer.resetCamera();
           Renderer.setMeshes(meshes);
@@ -80,13 +86,22 @@ export default class ResourceView extends React.Component<Props> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { path, loadedPath } = this.props;
+    const { path, loadedPath, map, normalMap, specularMap } = this.props;
 
     if (nextProps.path && path !== nextProps.path) {
       nextProps.loadFile(nextProps.path, true);
     }
     if (loadedPath !== nextProps.loadedPath) {
       this.updateMesh(nextProps.loadedPath);
+    }
+    if (nextProps.map && nextProps.map !== map) {
+      this.state.manager.updateImage('map', nextProps.map);
+    }
+    if (nextProps.normalMap && nextProps.normalMap !== normalMap) {
+      this.state.manager.updateImage('normalMap', nextProps.normalMap);
+    }
+    if (nextProps.specularMap && nextProps.specularMap !== specularMap) {
+      this.state.manager.updateImage('specularMap', nextProps.specularMap);
     }
   }
 

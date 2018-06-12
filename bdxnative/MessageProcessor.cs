@@ -24,25 +24,26 @@ namespace bdxnative {
                         Program.channel.Dispose();
                         return;
                     case Message.FOLDER_GET:
-                        var folder = msg.Payload["path"].ToString();
+                        var folder = msg["path"].ToString();
                         var entries = Program.explorer.GetFolderEntries(folder);
                         Program.channel.SendMessage(new FolderEntriesMessage(folder, 0, 1000, entries));
                         break;
                     case Message.FILE_GET:
-                        var fileBlock = Program.explorer.GetFileBlock(msg.Payload["path"].ToString());
+                        var fileBlock = Program.explorer.GetFileBlock(msg["path"].ToString());
                         var type = BdFileDecoder.Export(fileBlock,
-                            msg.Payload["extractTextures"]?.ToObject<bool>() ?? false,
+                            msg["extractTextures"]?.ToObject<bool>() ?? false,
                             Program.explorer.GetFileBlockForName, out string path);
                         Program.channel.SendMessage(new FileMessage(path, type));
                         break;
-                    case Message.UPSCALE_FILE:
+                    case Message.FILE_UPSCALE:
+                        var textureType = msg["textureType"].ToString();
+                        var upscaled = DDSUtility.Upscale(msg["path"].ToString());
+                        Program.channel.SendMessage(new FileUpscaledMessage(upscaled, textureType));
                         break;
 
                 }
             } catch (Exception e) {
-#if DEBUG
                 log.Warn("Error while processing message", e);
-#endif
                 Program.channel.SendMessage(new FailedToProcessMessage(msg.Type));
             }
         }

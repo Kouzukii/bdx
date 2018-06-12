@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 
 namespace bdxnative.Messages {
     [Serializable]
@@ -17,14 +14,14 @@ namespace bdxnative.Messages {
         public const string FOLDER_GET_SUCCESS = "FOLDER_GET_SUCCESS";
         public const string FILE_GET = "FILE_GET";
         public const string FILE_GET_SUCCESS = "FILE_GET_SUCCESS";
-        public const string UPSCALE_FILE = "UPSCALE_FILE";
+        public const string FILE_UPSCALE = "FILE_UPSCALE";
+        public const string FILE_UPSCALE_SUCCESS = "FILE_UPSCALE_SUCCESS";
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
-        [JsonIgnore]
-        public ReadOnlyDictionary<string, JToken> Payload => new ReadOnlyDictionary<string, JToken>(_additionalData);
-
         [JsonExtensionData] private IDictionary<string, JToken> _additionalData;
+
+        public JToken this[string key] => _additionalData[key];
     }
 }
